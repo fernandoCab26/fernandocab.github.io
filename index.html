@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fernando Cab — Ingeniero de Software Full Stack Senior</title>
+  <meta name="description" content="Ingeniero de Software Full Stack Senior especializado en .NET, Angular, Azure y microservicios. Más de 8 años de experiencia en proyectos enterprise." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0d0e12;
+      --bg-card: #13151a;
+      --bg-card-hover: #171a21;
+      --border: rgba(255, 255, 255, 0.05);
+      --border-hover: rgba(255, 255, 255, 0.12);
+      --accent: #5ce1e6;
+      --accent-muted: rgba(92, 225, 230, 0.1);
+      --green-glow: #00f2fe;
+      --gold: #f0c060;
+      --text: #f3f4f6;
+      --muted: #9ca3af;
+      --muted-dark: #4b5563;
+      --max-width: 1100px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      line-height: 1.625;
+      overflow-x: hidden;
+      letter-spacing: -0.01em;
+    }
+
+    /* Sutil textura de ruido de fondo */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.02'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    /* NAVEGACIÓN */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 4rem;
+      border-bottom: 1px solid var(--border);
+      background: rgba(13, 14, 18, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .nav-logo {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      transition: color 0.2s;
+    }
+    .nav-logo span { color: var(--accent); }
+    .nav-logo:hover { color: var(--accent); }
+
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 8rem 4rem 4rem;
+      position: relative;
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: 15%; right: -5%;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(92, 225, 230, 0.04) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .hero-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--accent);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards 0.2s;
+    }
+
+    .hero h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(3rem, 6.5vw, 5.5rem);
+      line-height: 1.08;
+      font-weight: 400;
+      max-width: 950px;
+      opacity: 0;
+      animation: fadeUp 0.7s ease forwards 0.35s;
+    }
+
+    .hero h1 em { font-style: italic; color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,0.6); }
+
+    .hero-sub {
+      margin-top: 2rem;
+      font-size: 1.15rem;
+      color: var(--muted);
+      max-width: 560px;
+      opacity: 0;
+      animation: fadeUp 0.7s ease forwards 0.5s;
+    }
+
+    .hero-actions {
+      margin-top: 3rem;
+      display: flex; gap: 1rem;
+      align-items: center;
+      opacity: 0;
+      animation: fadeUp 0.7s ease forwards 0.65s;
+    }
+
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      padding: 0.85rem 2rem;
+      background: var(--text); color: var(--bg);
+      font-family: 'DM Mono', monospace; font-size: 0.8rem; font-weight: 500;
+      letter-spacing: 0.05em; text-transform: uppercase; text-decoration: none;
+      border-radius: 4px; transition: background 0.2s, transform 0.2s;
+    }
+    .btn-primary:hover { background: var(--accent); transform: translateY(-1px); }
+
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      padding: 0.85rem 2rem;
+      background: transparent; color: var(--muted);
+      font-family: 'DM Mono', monospace; font-size: 0.8rem;
+      letter-spacing: 0.05em; text-transform: uppercase; text-decoration: none;
+      border: 1px solid var(--border); border-radius: 4px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .btn-ghost:hover { color: var(--text); border-color: var(--border-hover); }
+
+    .hero-meta {
+      margin-top: 6rem;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+      opacity: 0;
+      border-top: 1px solid var(--border);
+      padding-top: 2rem;
+      animation: fadeUp 0.7s ease forwards 0.8s;
+    }
+
+    .hero-stat { display: flex; flex-direction: column; }
+    .hero-stat-num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2.4rem; color: var(--text); line-height: 1;
+    }
+    .hero-stat-label {
+      font-family: 'DM Mono', monospace; font-size: 0.68rem;
+      color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase;
+      margin-top: 0.5rem;
+    }
+
+    /* SECCIONES COMPARTIDAS */
+    section {
+      padding: 8rem 4rem;
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem; color: var(--accent);
+      letter-spacing: 0.15em; text-transform: uppercase;
+      margin-bottom: 3.5rem;
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .section-label::after {
+      content: ''; flex: 1; max-width: 40px; height: 1px;
+      background: var(--accent); opacity: 0.3;
+    }
+
+    h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+      font-weight: 400; line-height: 1.15;
+      margin-bottom: 1.5rem;
+    }
+
+    /* SOBRE MÍ */
+    .about-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 5rem; align-items: start; }
+    .about-text p { color: var(--muted); margin-bottom: 1.5rem; font-size: 1.05rem; }
+    .about-text p strong { color: var(--text); font-weight: 400; }
+    .about-certs { display: flex; flex-direction: column; gap: 0.75rem; }
+
+    .cert-group-title {
+      font-family: 'DM Mono', monospace; font-size: 0.68rem; color: var(--muted);
+      letter-spacing: 0.1em; text-transform: uppercase; margin: 1.5rem 0 0.75rem;
+    }
+    .cert-group-title:first-child { margin-top: 0; }
+
+    .cert-card {
+      padding: 1rem 1.2rem;
+      border: 1px solid var(--border); background: var(--bg-card);
+      border-radius: 4px; display: flex; align-items: center; gap: 1rem;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .cert-card:hover { border-color: var(--border-hover); background: var(--bg-card-hover); }
+
+    .cert-icon {
+      width: 32px; height: 32px;
+      background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem; border-radius: 4px; flex-shrink: 0; color: var(--accent);
+    }
+    .cert-name { font-size: 0.9rem; font-weight: 400; color: var(--text); }
+    .cert-issuer { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--muted); margin-top: 0.1rem; }
+
+    /* PROYECTO DESTACADO */
+    .project-card {
+      border: 1px solid var(--border); background: var(--bg-card);
+      border-radius: 6px; overflow: hidden;
+    }
+    .project-header {
+      padding: 3rem; border-bottom: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: flex-start; gap: 2rem;
+    }
+    .project-title { font-family: 'DM Serif Display', serif; font-size: 2rem; font-weight: 400; }
+    .project-badge {
+      font-family: 'DM Mono', monospace; font-size: 0.65rem;
+      letter-spacing: 0.05em; text-transform: uppercase;
+      color: var(--gold); background: rgba(240, 192, 96, 0.05);
+      border: 1px solid rgba(240, 192, 96, 0.2);
+      padding: 0.3rem 0.75rem; border-radius: 3px; white-space: nowrap;
+    }
+    .project-body { padding: 3rem; }
+    .project-desc { color: var(--muted); font-size: 1.05rem; margin-bottom: 2.5rem; max-width: 800px; }
+    
+    .project-stats { display: flex; gap: 4rem; margin-bottom: 2.5rem; }
+    .project-stat-num { font-family: 'DM Serif Display', serif; font-size: 2.2rem; color: var(--text); line-height: 1;}
+    .project-stat-label {
+      font-family: 'DM Mono', monospace; font-size: 0.65rem; color: var(--muted);
+      letter-spacing: 0.05em; text-transform: uppercase; margin-top: 0.4rem;
+    }
+
+    .tech-stack { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .tech-tag {
+      font-family: 'DM Mono', monospace; font-size: 0.7rem;
+      padding: 0.25rem 0.65rem; background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border); color: var(--muted);
+      border-radius: 3px; transition: color 0.2s, border-color 0.2s;
+    }
+    .tech-tag:hover { color: var(--accent); border-color: rgba(92, 225, 230, 0.3); }
+
+    /* EXPERIENCIA (TIMELINE) */
+    .timeline { max-width: 850px; }
+    .timeline-company { margin-bottom: 4.5rem; }
+    .timeline-company:last-child { margin-bottom: 0; }
+    
+    .company-header {
+      display: flex; justify-content: space-between; align-items: baseline;
+      margin-bottom: 1.5rem;
+    }
+    .company-name { font-family: 'DM Serif Display', serif; font-size: 1.6rem; font-weight: 400; }
+    .company-dates { font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--muted); }
+
+    .role-block {
+      padding-left: 1.5rem; border-left: 1px solid var(--border);
+      margin-bottom: 2rem; transition: border-color 0.3s;
+    }
+    .role-block:last-child { margin-bottom: 0; }
+    .role-block:hover { border-left-color: var(--accent); }
+    
+    .role-title { font-size: 1.05rem; font-weight: 500; color: var(--text); }
+    .role-dates { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--accent); margin: 0.2rem 0 0.75rem; }
+    .role-desc { color: var(--muted); font-size: 0.95rem; }
+
+    /* HABILIDADES (BENTO GRID) */
+    .skills-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1rem;
+    }
+    .skill-group {
+      padding: 2rem; border: 1px solid var(--border); background: var(--bg-card);
+      border-radius: 6px; transition: border-color 0.2s;
+    }
+    .skill-group:hover { border-color: var(--border-hover); }
+    .skill-group-title {
+      font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--accent);
+      letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1.25rem;
+    }
+    .skill-list { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .skill-pill {
+      font-size: 0.85rem; color: var(--muted); padding: 0.3rem 0.75rem;
+      background: rgba(255,255,255,0.01); border: 1px solid var(--border);
+      border-radius: 4px; transition: all 0.2s;
+    }
+    .skill-pill:hover { color: var(--text); border-color: var(--muted-dark); background: transparent; }
+
+    /* CONTACTO */
+    .contact-inner { max-width: 650px; }
+    .contact-inner p { color: var(--muted); font-size: 1.1rem; margin-bottom: 3rem; }
+    .contact-links { display: flex; flex-direction: column; gap: 0.75rem; }
+    
+    .contact-link {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.25rem 1.5rem; border: 1px solid var(--border);
+      background: var(--bg-card); border-radius: 4px; text-decoration: none;
+      color: var(--text); transition: all 0.2s;
+    }
+    .contact-link:hover { border-color: var(--border-hover); background: var(--bg-card-hover); transform: translateX(4px); }
+    
+    .contact-left { display: flex; align-items: center; gap: 2rem; }
+    .contact-label { font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--accent); width: 70px; }
+    .contact-value { font-size: 1rem; }
+    .contact-arrow { font-size: 0.8rem; color: var(--muted-dark); transition: color 0.2s; }
+    .contact-link:hover .contact-arrow { color: var(--accent); }
+
+    /* FOOTER */
+    footer {
+      max-width: var(--max-width); margin: 0 auto;
+      padding: 3rem 4rem; border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    footer p { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--muted-dark); }
+
+    /* ANIMACIÓN REVEAL */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal { opacity: 0; transform: translateY(12px); transition: opacity 0.5s ease, transform 0.5s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* RESPONSIVE */
+    @media (max-width: 968px) {
+      nav { padding: 1.25rem 2rem; }
+      .nav-links { gap: 1.5rem; }
+      section { padding: 6rem 2rem; }
+      .hero { padding: 8rem 2rem 4rem; }
+      .hero-meta { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-top: 4rem; }
+      .about-grid { grid-template-columns: 1fr; gap: 4rem; }
+      .project-header { padding: 2rem; flex-direction: column; gap: 1rem; }
+      .project-body { padding: 2rem; }
+      .project-stats { gap: 2.5rem; }
+      footer { padding: 2rem; flex-direction: column; gap: 0.75rem; text-align: center; }
+    }
+
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      .hero h1 { font-size: 2.8rem; }
+      .hero-actions { flex-direction: column; align-items: stretch; }
+      .btn-primary, .btn-ghost { justify-content: center; }
+      .project-stats { grid-template-columns: 1fr; gap: 1.5rem; display: grid; }
+      .company-header { flex-direction: column; gap: 0.2rem; }
+      .contact-left { gap: 1rem; }
+      .contact-label { width: auto; }
+      .contact-arrow { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a class="nav-logo" href="#">FC<span>/dev</span></a>
+    <ul class="nav-links">
+      <li><a href="#sobre-mi">Sobre mí</a></li>
+      <li><a href="#proyecto">Proyecto</a></li>
+      <li><a href="#experiencia">Experiencia</a></li>
+      <li><a href="#habilidades">Habilidades</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <section class="hero">
+    <p class="hero-eyebrow">// Mérida, Yucatán · México</p>
+    <h1>Fernando Cab<br />Full Stack <em>Senior</em><br />Engineer</h1>
+    <p class="hero-sub">.NET · Angular · Azure · Microservicios. Más de 8 años construyendo sistemas enterprise bajo procesos CMMI Nivel 5.</p>
+    
+    <div class="hero-actions">
+      <a class="btn-primary" href="CV_Fernando_Cab.docx" download>
+        ↓ Descargar CV
+      </a>
+      <a class="btn-ghost" href="#contacto">Contacto</a>
+    </div>
+
+    <div class="hero-meta">
+      <div class="hero-stat">
+        <span class="hero-stat-num">8+</span>
+        <span class="hero-stat-label">Años de experiencia</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-num">200+</span>
+        <span class="hero-stat-label">Trámites diarios en prod.</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-num">2x</span>
+        <span class="hero-stat-label">Cert. Microsoft Azure</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-num">CMMI 5</span>
+        <span class="hero-stat-label">Nivel de proceso</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="sobre-mi">
+    <div class="section-label">01 — Sobre mí</div>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <h2>Ingeniero que entiende el negocio</h2>
+        <br/>
+        <p>Comencé desarrollando sistemas de escritorio y web con <strong>ASP.NET y Windows Forms</strong>, y a lo largo de 8 años evolucioné hasta diseñar arquitecturas de <strong>microservicios con .NET Core, Angular y Azure</strong>.</p>
+        <p>Fui seleccionado para equipos estratégicos en Mayansoft por mi perfil técnico, participando en proyectos de alto impacto para entidades gubernamentales y clientes corporativos bajo <strong>procesos CMMI Nivel 5</strong>.</p>
+        <p>Actualmente lidero un equipo de desarrollo a la medida, donde combino análisis técnico, coordinación de entregas y comunicación directa con el cliente. Me caracterizo por <strong>resolver de raíz</strong>, no con parches, y por identificar oportunidades de automatización antes de que alguien las señale.</p>
+      </div>
+      
+      <div class="about-certs reveal">
+        <div class="cert-group-title">Certificaciones Microsoft</div>
+        <div class="cert-card">
+          <div class="cert-icon">☁</div>
+          <div>
+            <div class="cert-name">Azure Developer Associate</div>
+            <div class="cert-issuer">Microsoft Certified · AZ-204</div>
+          </div>
+        </div>
+        <div class="cert-card">
+          <div class="cert-icon">⚙</div>
+          <div>
+            <div class="cert-name">DevOps Engineer Expert</div>
+            <div class="cert-issuer">Microsoft Certified · AZ-400</div>
+          </div>
+        </div>
+
+        <div class="cert-group-title">Educación</div>
+        <div class="cert-card">
+          <div class="cert-icon">🎓</div>
+          <div>
+            <div class="cert-name">Ing. en Sistemas Computacionales</div>
+            <div class="cert-issuer">Instituto Tecnológico de Mérida · 2010–2015</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="proyecto">
+    <div class="section-label">02 — Proyecto destacado</div>
+    <div class="project-card reveal">
+      <div class="project-header">
+        <div>
+          <div class="project-title">Plataforma de Ventanilla Única de Trámites</div>
+          <div style="margin-top:0.4rem; font-size:0.85rem; color:var(--muted);">Mayansoft · 2020–2022</div>
+        </div>
+        <div class="project-badge">⭐ Proyecto estratégico</div>
+      </div>
+      <div class="project-body">
+        <p class="project-desc">
+          Sistema para centralizar la gestión de trámites de múltiples entidades en una sola plataforma. Seleccionado como parte del equipo de ingenieros de alto desempeño para construirlo desde cero, adoptando tecnologías Azure y Angular de forma autónoma sin impactar los tiempos de entrega.
+        </p>
+        <div class="project-stats">
+          <div>
+            <div class="project-stat-num">10</div>
+            <div class="project-stat-label">Clientes corporativos</div>
+          </div>
+          <div>
+            <div class="project-stat-num">200+</div>
+            <div class="project-stat-label">Trámites diarios</div>
+          </div>
+          <div>
+            <div class="project-stat-num">CMMI</div>
+            <div class="project-stat-label">Proceso certificado</div>
+          </div>
+        </div>
+        <div class="tech-stack">
+          <span class="tech-tag">.NET Core</span>
+          <span class="tech-tag">Angular 8</span>
+          <span class="tech-tag">Microservicios</span>
+          <span class="tech-tag">CQRS</span>
+          <span class="tech-tag">DDD</span>
+          <span class="tech-tag">Entity Framework</span>
+          <span class="tech-tag">SQL Server</span>
+          <span class="tech-tag">Microsoft Azure</span>
+          <span class="tech-tag">Azure DevOps</span>
+          <span class="tech-tag">TypeScript</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="experiencia">
+    <div class="section-label">03 — Experiencia</div>
+    <div class="timeline">
+
+      <div class="timeline-company reveal">
+        <div class="company-header">
+          <div class="company-name">Mayansoft</div>
+          <div class="company-dates">Feb 2018 — Actualidad</div>
+        </div>
+
+        <div class="role-block">
+          <div class="role-title">Tech Lead — Responsable de Equipo</div>
+          <div class="role-dates">2024 — Actualidad</div>
+          <div class="role-desc">Coordino un equipo de 2 desarrolladores y un QA bajo CMMI Nivel 5. Gestiono comunicación directa con el cliente, traduciendo avances técnicos a lenguaje de negocio. Superviso estándares de calidad auditados periódicamente e identifico oportunidades de automatización.</div>
+        </div>
+
+        <div class="role-block">
+          <div class="role-title">Ingeniero Senior — Equipo Comercial</div>
+          <div class="role-dates">2022 — 2024</div>
+          <div class="role-desc">Seleccionado para un equipo piloto encargado de ganar un nuevo cliente corporativo frente a competidores. El cliente contrató a Mayansoft tras los entregables del sprint de prueba, consolidando una relación vigente hasta hoy.</div>
+        </div>
+
+        <div class="role-block">
+          <div class="role-title">Ingeniero Senior — Proyectos Estratégicos</div>
+          <div class="role-dates">2020 — 2022</div>
+          <div class="role-desc">Desarrollo de motor BPMN con DDD, patrones Command y Factory. Posteriormente, construcción de la plataforma de ventanilla única de trámites (ver Proyecto Destacado). Aprendizaje autónomo de Angular, TypeScript e infraestructura Azure sobre la marcha. Reconocimiento institucional por desempeño.</div>
+        </div>
+
+        <div class="role-block">
+          <div class="role-title">Ingeniero de Software — Mantenimiento y Capacitación</div>
+          <div class="role-dates">2019 — 2020</div>
+          <div class="role-desc">Resolución de bugs del sistema GRP con enfoque en comprensión profunda de la lógica de negocio, logrando soluciones de raíz. Capacitación técnica a grupos de hasta 15 ingenieros de nuevo ingreso.</div>
+        </div>
+
+        <div class="role-block">
+          <div class="role-title">Ingeniero de Software — Arquitectura y Performance</div>
+          <div class="role-dates">2018 — 2019</div>
+          <div class="role-desc">Asignado al equipo de arquitectura desde el inicio. Monitoreo de rendimiento en producción con Retrace y Stackify, resolviendo el 30% de issues existentes. Introduje pruebas unitarias y Stackify como prácticas nuevas en la empresa, con demos y transferencia de conocimiento a otros equipos. Atención de incidentes en sitio del cliente.</div>
+        </div>
+      </div>
+
+      <div class="timeline-company reveal">
+        <div class="company-header">
+          <div class="company-name">Grupo Crio</div>
+          <div class="company-dates">Sep 2015 — Feb 2018</div>
+        </div>
+        <div class="role-block">
+          <div class="role-title">Ingeniero de Software</div>
+          <div class="role-dates">2015 — 2018</div>
+          <div class="role-desc">Desarrollé un sistema de comedor en Windows Forms, un Windows Service para extracción automatizada de facturas del SAT mediante web scraping, y optimicé el sistema de nómina en ASP.NET + SQL Server reduciendo un 50% el tiempo de migración anual. Stack: ASP.NET, SQL Server, Windows Forms.</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="habilidades">
+    <div class="section-label">04 — Habilidades</div>
+    <div class="skills-grid">
+      <div class="skill-group reveal">
+        <div class="skill-group-title">Lenguajes</div>
+        <div class="skill-list">
+          <span class="skill-pill">C#</span>
+          <span class="skill-pill">TypeScript</span>
+          <span class="skill-pill">JavaScript</span>
+          <span class="skill-pill">SQL</span>
+        </div>
+      </div>
+      <div class="skill-group reveal">
+        <div class="skill-group-title">Frameworks</div>
+        <div class="skill-list">
+          <span class="skill-pill">.NET Core</span>
+          <span class="skill-pill">ASP.NET Core</span>
+          <span class="skill-pill">Angular</span>
+          <span class="skill-pill">Entity Framework</span>
+          <span class="skill-pill">NgRx</span>
+        </div>
+      </div>
+      <div class="skill-group reveal">
+        <div class="skill-group-title">Cloud & DevOps</div>
+        <div class="skill-list">
+          <span class="skill-pill">Microsoft Azure</span>
+          <span class="skill-pill">Azure DevOps</span>
+          <span class="skill-pill">Docker</span>
+          <span class="skill-pill">CI/CD</span>
+          <span class="skill-pill">App Services</span>
+          <span class="skill-pill">Service Bus</span>
+        </div>
+      </div>
+      <div class="skill-group reveal">
+        <div class="skill-group-title">Arquitectura & Patrones</div>
+        <div class="skill-list">
+          <span class="skill-pill">Microservicios</span>
+          <span class="skill-pill">DDD</span>
+          <span class="skill-pill">CQRS</span>
+          <span class="skill-pill">BPMN</span>
+          <span class="skill-pill">REST APIs</span>
+          <span class="skill-pill">Command</span>
+          <span class="skill-pill">Factory</span>
+        </div>
+      </div>
+      <div class="skill-group reveal">
+        <div class="skill-group-title">Observabilidad</div>
+        <div class="skill-list">
+          <span class="skill-pill">Retrace</span>
+          <span class="skill-pill">Stackify</span>
+          <span class="skill-pill">Performance Profiling</span>
+          <span class="skill-pill">Pruebas Unitarias</span>
+        </div>
+      </div>
+      <div class="skill-group reveal">
+        <div class="skill-group-title">Proceso & Liderazgo</div>
+        <div class="skill-list">
+          <span class="skill-pill">CMMI Nivel 5</span>
+          <span class="skill-pill">Scrum</span>
+          <span class="skill-pill">Tech Lead</span>
+          <span class="skill-pill">Capacitación técnica</span>
+          <span class="skill-pill">Comunicación con cliente</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contacto">
+    <div class="section-label">05 — Contacto</div>
+    <div class="contact-inner reveal">
+      <h2>Hablemos</h2>
+      <br/>
+      <p>Abierto a oportunidades en empresas enterprise donde pueda aportar experiencia en .NET, Azure y arquitecturas modernas. Respondo por correo o LinkedIn.</p>
+      
+      <div class="contact-links">
+        <a class="contact-link" href="mailto:fer_nandocab@hotmail.com">
+          <div class="contact-left">
+            <span class="contact-label">EMAIL</span>
+            <span class="contact-value">fer_nandocab@hotmail.com</span>
+          </div>
+          <span class="contact-arrow">↗</span>
+        </a>
+        <a class="contact-link" href="https://linkedin.com/in/fernando-cab-35ab301ba" target="_blank" rel="noopener">
+          <div class="contact-left">
+            <span class="contact-label">LINKEDIN</span>
+            <span class="contact-value">linkedin.com/in/fernando-cab-35ab301ba</span>
+          </div>
+          <span class="contact-arrow">↗</span>
+        </a>
+        <a class="contact-link" href="CV_Fernando_Cab.docx" download>
+          <div class="contact-left">
+            <span class="contact-label">CV</span>
+            <span class="contact-value">Descargar CV en formato Word</span>
+          </div>
+          <span class="contact-arrow">↓</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>Fernando Cab © 2026</p>
+    <p>Mérida, Yucatán · México</p>
+  </footer>
+
+  <script>
+    // Intersection Observer mejorado para el efecto Reveal
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px 0px -80px 0px',
+      threshold: 0.05
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
